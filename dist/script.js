@@ -97,6 +97,8 @@
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_modals__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/modals */ "./src/js/modules/modals.js");
 /* harmony import */ var _modules_sliders__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/sliders */ "./src/js/modules/sliders.js");
+/* harmony import */ var _modules_forms__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/forms */ "./src/js/modules/forms.js");
+
 
 
 window.addEventListener('DOMContentLoaded', () => {
@@ -105,7 +107,111 @@ window.addEventListener('DOMContentLoaded', () => {
   Object(_modules_modals__WEBPACK_IMPORTED_MODULE_0__["default"])();
   Object(_modules_sliders__WEBPACK_IMPORTED_MODULE_1__["default"])('.feedback-slider-item', 'horizontal', '.main-prev-btn', '.main-next-btn');
   Object(_modules_sliders__WEBPACK_IMPORTED_MODULE_1__["default"])('.main-slider-item', 'vertical');
+  Object(_modules_forms__WEBPACK_IMPORTED_MODULE_2__["default"])();
 });
+
+/***/ }),
+
+/***/ "./src/js/modules/forms.js":
+/*!*********************************!*\
+  !*** ./src/js/modules/forms.js ***!
+  \*********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+const forms = () => {
+  const form = document.querySelectorAll('form'),
+    inputs = document.querySelectorAll('input'),
+    upload = document.querySelectorAll('[name="upload"]');
+
+  // checkNumImputs('input[name="user_phone"]');
+
+  const message = {
+    loading: 'Завантаження...',
+    success: 'Дякую! Скоро ми з вами звяжемся',
+    failure: 'Щось пішло не так...',
+    spiner: 'assets/img/spiner.gif',
+    ok: 'assets/img/ok.png',
+    fail: 'assets/img/fail.png'
+  };
+
+  // створюємо змінну в якій розмістимо шляхи по яких будуть відправлятися дані
+  const path = {
+    designer: 'assets/server.php',
+    question: 'assets/question.php'
+  };
+  const postData = async (url, data) => {
+    let res = await fetch(url, {
+      method: "POST",
+      body: data
+    });
+    return await res.text();
+  };
+  const clearInputs = () => {
+    inputs.forEach(i => {
+      i.value = '';
+    });
+    upload.forEach(i => {
+      i.previousElementSibling.textContent = "Файл не вибраний";
+    });
+  };
+  upload.forEach(item => {
+    item.addEventListener('input', () => {
+      console.log(item.files[0]);
+      let dots;
+      // уомва на перевірку назви довжини зображення
+      const arr = item.files[0].name.split('.');
+      arr[0].length > 6 ? dots = "..." : dots = '.';
+      const name = arr[0].substring(0, 6) + dots + arr[1];
+      item.previousElementSibling.textContent = name;
+    });
+  });
+  form.forEach(i => {
+    i.addEventListener('submit', e => {
+      e.preventDefault();
+      let statusMessage = document.createElement('div');
+      statusMessage.classList.add('status');
+      i.parentNode.appendChild(statusMessage);
+      i.classList.add('animated', 'fadeOutUp'); // анімації
+      setTimeout(() => {
+        i.style.display = 'none';
+      }, 400);
+
+      // відображення статуса
+      let statusImg = document.createElement('img');
+      statusImg.setAttribute('src', message.spiner);
+      statusImg.classList.add('animated', 'fadeInUp');
+      statusMessage.appendChild(statusImg);
+      // добавляєм текстове повідомлення 
+      let textMessage = document.createElement('div');
+      textMessage.textContent = message.loading;
+      statusMessage.appendChild(textMessage);
+      const formData = new FormData(i);
+      let api;
+      i.closest('.popup-design') || i.classList.contains('calc_form') ? api = path.designer : api = path.question;
+      console.log(api);
+      postData(api, formData).then(res => {
+        console.log(res);
+        statusImg.setAttribute('src', message.ok);
+        textMessage.textContent = message.success;
+      }).catch(() => {
+        statusImg.setAttribute('src', message.fail);
+        textMessage.textContent = message.failure;
+      }).finally(() => {
+        clearInputs();
+        setTimeout(() => {
+          statusMessage.remove();
+          i.style.display = 'block';
+          i.classList.remove('fadeOutUp');
+          i.classList.add('fadeInUp');
+        }, 3000);
+      });
+    });
+  });
+};
+/* harmony default export */ __webpack_exports__["default"] = (forms);
 
 /***/ }),
 

@@ -45,7 +45,7 @@ const mask = (selector) => {
         input.addEventListener('focus', createMask);
         input.addEventListener('blur', createMask);
 
-    })
+    });
 };
 
 export default mask;

@@ -1,19 +1,21 @@
 import {postData} from "../services/requests";
-const forms = () => {
+import checkTextInputs from "./checkTextInputs";
+
+const forms = (state) => {
 
     const form = document.querySelectorAll('form'),
           inputs = document.querySelectorAll('input'),
-          upload = document.querySelectorAll('[name="upload"]');
+          upload = document.querySelectorAll('[name="upload"]'),
+          price = document.querySelector('.calc-price');
 
 
-    // checkNumImputs('input[name="user_phone"]');
-
+          checkTextInputs('input[name=phone]');
     
     const message = {
         loading: 'Завантаження...',
         success: 'Дякую! Скоро ми з вами звяжемся',
         failure: 'Щось пішло не так...',
-        spiner: 'assets/img/spiner.gif',
+        spiner: 'assets/img/spinner.gif',
         ok: 'assets/img/ok.png',
         fail: 'assets/img/fail.png'
     };
@@ -32,7 +34,7 @@ const forms = () => {
         });
         upload.forEach(i => {
             i.previousElementSibling.textContent = "Файл не вибраний";
-        })
+        });
     };
 
     upload.forEach(item => {
@@ -75,6 +77,11 @@ const forms = () => {
             i.closest('.popup-design') || i.classList.contains('calc_form') ? api = path.designer : api = path.question;
             console.log(api);
 
+            if(i.getAttribute('data-calc') == 'end') {
+                for(let key in state) {
+                    formData.append(key, state[key]);
+                }
+            }
 
             postData(api, formData)
                 .then(res => {

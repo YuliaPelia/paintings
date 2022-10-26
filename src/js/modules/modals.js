@@ -1,3 +1,4 @@
+// modal with animated
 const modals = () => {
 
     let btnPressed = false;

@@ -889,8 +889,8 @@ const scrolling = upSelector => {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _services_requests__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../services/requests */ "./src/js/services/requests.js");
 
-// trigger - кнопка,  яка викликає показ стилів
-// wrapper - обгортка в якій містяться всі карточки
+// trigger - конопка
+// styles - стилі які треба буле показати
 const showMoreStyles = (trigger, wrapper) => {
   const btn = document.querySelector(trigger);
 
@@ -903,19 +903,32 @@ const showMoreStyles = (trigger, wrapper) => {
   //         card.classList.remove('hidden-lg', 'hidden-md', 'hidden-sm', 'hidden-xs');
   //         card.classList.add('col-sm-3', 'col-sm-offset-0', 'col-xs-10', 'col-xs-offset-1');
   //     });
-  //     // btn.style.display = 'none';
   //     btn.remove();
   // });
 
-  // зробити так що коли сервер не відповідає відобразити це користувачеві на сторінку
+  // постимо дані на сторінку через сервер (коли користувач буде натискати на кнопку 
+  // в нас буде відправлятись запит на сервер і звідти приходитимуть блоки)
+
+  const message = {
+    failure: 'Щось пішло не так...'
+  };
   btn.addEventListener('click', function () {
-    Object(_services_requests__WEBPACK_IMPORTED_MODULE_0__["getResourse"])('assets/db.json').then(res => createCards(res.styles)).catch(error => console.log(error));
+    Object(_services_requests__WEBPACK_IMPORTED_MODULE_0__["getData"])('assets/db.json')
+    // сервер повертає масив з обєктами і цей масив передаємо в ф-цію createCards
+    .then(res => createCards(res.styles)).catch(error => {
+      let card = document.createElement('div');
+      card.classList.add('animated', 'fadeInUp', 'col-sm-4', 'col-sm-offset-4', 'col-xs-6', 'col-xs-offset-1');
+      card.innerHTML = `
+                    <div class="styles-block">
+                        <h4>${message.failure}</h4>
+                    </div>
+                `;
+      document.querySelector(wrapper).appendChild(card);
+    }); //  вивести на сторінку повідомлення щощось пішло не так
     this.remove();
   });
-
-  // ф-ція яка буде конструювати блоки з картинками і поміщати їх на сторінку
-  // response - відповідь від серверу
   function createCards(response) {
+    // беремо цей масив і перебираємо його
     response.forEach(_ref => {
       let {
         src,
@@ -926,13 +939,11 @@ const showMoreStyles = (trigger, wrapper) => {
       card.classList.add('animated', 'fadeInUp', 'col-sm-3', 'col-sm-offset-0', 'col-xs-10', 'col-xs-offset-1');
       card.innerHTML = `
                 <div class="styles-block">
-                    <img src=${src} alt="style">
+                    <img src=${src} alt ="style">
                     <h4>${title}</h4>
-                    <a href=${link}>Детальніше</a>
+                    <a href=${link}>Подробнее</a>
                 </div>
             `;
-
-      // поміщаєм на сторінку
       document.querySelector(wrapper).appendChild(card);
     });
   }

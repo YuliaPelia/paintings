@@ -276,7 +276,7 @@ const checkTextInputs = selector => {
   const txtInputs = document.querySelectorAll(selector);
   txtInputs.forEach(input => {
     input.addEventListener('keypress', function (e) {
-      if (e.key.match(/[^а-яі 0-9]/ig)) {
+      if (e.key.match(/[^а-яіїє 0-9]/ig)) {
         e.preventDefault();
       }
     });

@@ -1,3 +1,5 @@
+// 2. Щоб експортувати весь код який буде знаходитися тут, необхідно зробити певну структуру
+// використовуючи звичайні ф-ції
 const modals = () => {
 
     // 5. Створюєм змінну яка буде відповідати за те що вона слідкує чи була нажата хоч одна кнопка
@@ -5,6 +7,10 @@ const modals = () => {
     let btnPressed;
     // ця змінна буде змінюватись коли користувач кліне на любу кнопку по виклику модального вікна
 
+
+
+    // 3. пишемо загальний алгоритм який буде приймати в себе різні аргументи і робити те що нам потрібно
+    // створюєм ф-цію яка буде відповідати за привязку модального вікна до певного триггеру
     // trigger - селектор нашої кнопки по якій ми будемо клікати
     // modal - модальне вікно яке ми будемо відкривати
     // close - селекор який закриває модальне вікно (хрестик)
@@ -26,11 +32,14 @@ const modals = () => {
                     e.preventDefault(); // відміняєм стандартну поведінку браузера
                 }
 
-                btnPressed = true; // користувач клікнув на кнопку (trigger)
+                btnPressed = true; // користувач клікнув на кнопку
                 
                 // берем всі модальні вікна які є і при відкритті нового модального вікна старі всі закриваються
                 windows.forEach(item => {
                     item.style.display = 'none';
+                    // робимо анімацію з css. Додаємо додаткові класи
+                    // animated - для того щоб правильно запрацювали анімації
+                    // fadeIn - для того щоб красиво і плавно появлялось модальне вікно
                     item.classList.add('animated', 'fadeIn');
                 });
 
@@ -40,7 +49,9 @@ const modals = () => {
                 }
 
                 modal.style.display = "block";
-                // блокуємо scroll сторінки при відкритті модального вікна
+                // робимо так що коли модальне вікно відкрито то ми можемо гортати тільки модальне вікно,
+                // якщо воно велике по висоті якщо ні то сторінка просто заморожується і при виклику модального
+                // вікна скролити сторінку буде не можливо
                 document.body.style.overflow = "hidden";
                 // document.body.classList.add('modal-open');
                 document.body.style.marginRight = `${scroll}px`;
@@ -82,7 +93,7 @@ const modals = () => {
 
     
     
-    // функція відкриття модального вікна через певний проміжок часу
+    // відкриття модального вікна через певний проміжок часу
     // selector - модальне вікно
     // time - час через який відкриється це модальне вікно
     function showModalByTime(selector, time) {
@@ -100,13 +111,16 @@ const modals = () => {
             if(!d) {
                 document.querySelector(selector).style.display = "block";
                 document.body.style.overflow = "hidden";
+                // робимо щоб сторінка не дьоргалась
                 let scroll = calcScroll();
                 document.body.style.marginRight = `${scroll}px`;
+                // щоб подарунок не дьоргався
                 document.querySelector('.fixed-gift').style.marginRight = `${scroll}px`;
             }
         }, time);
     }
 
+    // створ функцію щоб модальне вікно не дьоргалось
     function calcScroll() {
         let div = document.createElement('div');
 
@@ -122,10 +136,16 @@ const modals = () => {
         return scrollWidth;
     }
 
+    // selector - той елемент який необхідно показати коли виконається певна умова
     function openByScroll(selector) {
+        // для того щоб оприділити скільки пікселів прогортав користувач зверху
+        // необхідна подія scroll яка навішується на обєкт window
         window.addEventListener('scroll', () => {
+            // якщо користувач не клікнув ні на одну кнопку і догортав до кінця
+            // вираховуємо чи користувач дійсно догортав сторінку до кінця
             if(!btnPressed && (window.scrollY + document.documentElement.clientHeight >= 
                 document.documentElement.scrollHeight)) {
+                    // відкриваєм модальне вікно коли умова виконалась
                     document.querySelector(selector).click();
                 }
         });

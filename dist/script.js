@@ -101,20 +101,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_mask__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/mask */ "./src/js/modules/mask.js");
 /* harmony import */ var _modules_checkTextInputs__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/checkTextInputs */ "./src/js/modules/checkTextInputs.js");
 /* harmony import */ var _modules_showMoreStyles__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modules/showMoreStyles */ "./src/js/modules/showMoreStyles.js");
-/* harmony import */ var _modules_calc__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./modules/calc */ "./src/js/modules/calc.js");
-/* harmony import */ var _modules_filter__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./modules/filter */ "./src/js/modules/filter.js");
-/* harmony import */ var _modules_pictureSize__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./modules/pictureSize */ "./src/js/modules/pictureSize.js");
-/* harmony import */ var _modules_accordion__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./modules/accordion */ "./src/js/modules/accordion.js");
-/* harmony import */ var _modules_burger__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./modules/burger */ "./src/js/modules/burger.js");
-/* harmony import */ var _modules_scrolling__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./modules/scrolling */ "./src/js/modules/scrolling.js");
-/* harmony import */ var _modules_drop__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./modules/drop */ "./src/js/modules/drop.js");
-
-
-
-
-
-
-
 
 
 
@@ -132,134 +118,7 @@ window.addEventListener('DOMContentLoaded', () => {
   Object(_modules_checkTextInputs__WEBPACK_IMPORTED_MODULE_4__["default"])('[name="name"]');
   Object(_modules_checkTextInputs__WEBPACK_IMPORTED_MODULE_4__["default"])('[name="message"]');
   Object(_modules_showMoreStyles__WEBPACK_IMPORTED_MODULE_5__["default"])('.button-styles', '#styles .row');
-  Object(_modules_calc__WEBPACK_IMPORTED_MODULE_6__["default"])('#size', '#material', '#options', '.promocode', '.calc-price');
-  Object(_modules_filter__WEBPACK_IMPORTED_MODULE_7__["default"])();
-  Object(_modules_pictureSize__WEBPACK_IMPORTED_MODULE_8__["default"])('.sizes-block');
-  Object(_modules_accordion__WEBPACK_IMPORTED_MODULE_9__["default"])('.accordion-heading');
-  Object(_modules_burger__WEBPACK_IMPORTED_MODULE_10__["default"])('.burger-menu', '.burger');
-  Object(_modules_scrolling__WEBPACK_IMPORTED_MODULE_11__["default"])('.pageup');
-  Object(_modules_drop__WEBPACK_IMPORTED_MODULE_12__["default"])();
 });
-
-/***/ }),
-
-/***/ "./src/js/modules/accordion.js":
-/*!*************************************!*\
-  !*** ./src/js/modules/accordion.js ***!
-  \*************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-const accordion = triggersSelector => {
-  const btns = document.querySelectorAll(triggersSelector);
-  btns.forEach(btn => {
-    btn.addEventListener('click', function () {
-      this.classList.toggle('active-style');
-      this.nextElementSibling.classList.toggle('active-content');
-      if (this.classList.contains('active-style')) {
-        this.nextElementSibling.style.maxHeight = this.nextElementSibling.scrollHeight + 80 + 'px';
-      } else {
-        this.nextElementSibling.style.maxHeight = '0px';
-      }
-    });
-  });
-  // коли клікаєм на інший елемент інші приховуються
-
-  // 1 спосіб       
-
-  //   blocks = document.querySelectorAll(itemsSelector);
-
-  // blocks.forEach(block => {
-  //     block.classList.add('animated', 'fadeInDown');
-  // });    
-
-  // btns.forEach(btn => {
-  //     btn.addEventListener('click', function() {
-  //         if(!this.classList.contains('active')) {
-  //             btns.forEach(btn => {
-  //                 btn.classList.remove('active', 'active-style');
-  //             });
-  //             this.classList.add('active', 'active-style');
-  //         }
-  //     });
-  // });
-};
-
-/* harmony default export */ __webpack_exports__["default"] = (accordion);
-
-/***/ }),
-
-/***/ "./src/js/modules/burger.js":
-/*!**********************************!*\
-  !*** ./src/js/modules/burger.js ***!
-  \**********************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-const burger = (menuSelector, burgerSelector) => {
-  const menuElem = document.querySelector(menuSelector),
-    burgerElem = document.querySelector(burgerSelector);
-  menuElem.style.display = 'none';
-  burgerElem.addEventListener('click', () => {
-    if (menuElem.style.display == 'none' && window.screen.availWidth < 993) {
-      menuElem.style.display = 'block';
-    } else {
-      menuElem.style.display = 'none';
-    }
-  });
-  window.addEventListener('resize', () => {
-    if (window.screen.availWidth > 992) {
-      menuElem.style.display = 'none';
-    }
-  });
-};
-/* harmony default export */ __webpack_exports__["default"] = (burger);
-
-/***/ }),
-
-/***/ "./src/js/modules/calc.js":
-/*!********************************!*\
-  !*** ./src/js/modules/calc.js ***!
-  \********************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-const calc = (size, material, options, promocode, result) => {
-  const sizeBlock = document.querySelector(size),
-    materialBlock = document.querySelector(material),
-    optionsBlock = document.querySelector(options),
-    promocodeBlock = document.querySelector(promocode),
-    resultBlock = document.querySelector(result);
-
-  // створюєм змінну яка буде відповідати за суму (її ми будемо поміщати на сторінку)      
-  let sum = 0;
-
-  // на ці 4 блоки які ми получили навішуємо подію change а в promocodeBlock будумо вводити input
-  // створ ф-цію яка буде спрацьова=увати при виборі елемента користувачем
-  const calcFunc = () => {
-    // 1) підраховуємо суму
-    // беремо суму від вибору розміру картинки і множимо на той коеф при виборі матеріалу і додоати додаткові послуги
-    sum = Math.round(+sizeBlock.value * +materialBlock.value + +optionsBlock.value);
-    if (sizeBlock.value == '' || materialBlock.value == '') {
-      resultBlock.textContent = "Будь ласка, виберіть розмір і матеріал картини";
-    } else if (promocodeBlock.value === 'IWANTPOPART') {
-      resultBlock.textContent = Math.round(sum * 0.7);
-    } else {
-      resultBlock.textContent = sum;
-    }
-  };
-  sizeBlock.addEventListener('change', calcFunc);
-  materialBlock.addEventListener('change', calcFunc);
-  optionsBlock.addEventListener('change', calcFunc);
-  promocodeBlock.addEventListener('input', calcFunc);
-};
-/* harmony default export */ __webpack_exports__["default"] = (calc);
 
 /***/ }),
 
@@ -284,156 +143,7 @@ const checkTextInputs = selector => {
 };
 /* harmony default export */ __webpack_exports__["default"] = (checkTextInputs);
 
-/***/ }),
-
-/***/ "./src/js/modules/drop.js":
-/*!********************************!*\
-  !*** ./src/js/modules/drop.js ***!
-  \********************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-const drop = () => {
-  // Є 8 подій повязаниї з пересуванням (прогуглити)
-  // ці події використовуються при drag and drop функціональностях
-  // відмічені * події спрацьовують на елементі який ми перетягуєм (це не наш випадок, 
-  // тому що ми будемо перетягувати файли з нашої файлової системи,
-  // щоб працювати з певними DOM - елементами на сторінці)
-  // drag *
-  // dragend *
-  // dragenter - ця подія виникає тоді, коли перетягуваний об'єкт перетягується над dropArea(любий елемент який сприймає цю подію)
-  // dragexit *
-  // dragleave - об'єкт який перетягується перетягнули за межі dropArea
-  // dragover - об'єкт зависає над dropArea і рухається в його межах
-  // dragstart *
-  // drop - виникає тоді, коли користувач відпустив кнопку миші і перетягуваний обєкт впав в dropArea
-
-  const fileInputs = document.querySelectorAll('[name="upload"]');
-  // формуємо масив подій і перебираємо його
-  ['dragenter', 'dragleave', 'dragover', 'drop'].forEach(eventName => {
-    fileInputs.forEach(input => {
-      input.addEventListener(eventName, preventDefault, false);
-    });
-  });
-  function preventDefault(e) {
-    e.preventDefault();
-    e.stopPropagation();
-  }
-  function highlight(item) {
-    item.closest('.file_upload').style.border = "5px solid yellow";
-    item.closest('.file_upload').style.backgroundColor = "rgba(0,0,0, .7";
-  }
-  function unhighlight(item) {
-    item.closest('.file_upload').style.border = "none";
-    if (item.closest('.calc_form')) {
-      item.closest('.file_upload').style.backgroundColor = "#fff";
-    } else {
-      item.closest('.file_upload').style.backgroundColor = "#ededed";
-    }
-  }
-  ['dragenter', 'dragover'].forEach(eventName => {
-    fileInputs.forEach(input => {
-      input.addEventListener(eventName, () => highlight(input), false);
-    });
-  });
-  ['dragleave', 'drop'].forEach(eventName => {
-    fileInputs.forEach(input => {
-      input.addEventListener(eventName, () => unhighlight(input), false);
-    });
-  });
-  fileInputs.forEach(input => {
-    input.addEventListener('drop', e => {
-      input.files = e.dataTransfer.files;
-      let dots;
-      // уомва на перевірку назви довжини зображення
-      const arr = input.files[0].name.split('.');
-      arr[0].length > 6 ? dots = "..." : dots = '.';
-      const name = arr[0].substring(0, 6) + dots + arr[1];
-      input.previousElementSibling.textContent = name;
-    });
-  });
-};
-/* harmony default export */ __webpack_exports__["default"] = (drop);
-
-/***/ }),
-
-/***/ "./src/js/modules/filter.js":
-/*!**********************************!*\
-  !*** ./src/js/modules/filter.js ***!
-  \**********************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-const filter = () => {
-  const menu = document.querySelector('.portfolio-menu'),
-    items = menu.querySelectorAll('li'),
-    btnAll = menu.querySelector('.all'),
-    btnLoves = menu.querySelector('.lovers'),
-    btnChef = menu.querySelector('.chef'),
-    btnGirl = menu.querySelector('.girl'),
-    btnGuy = menu.querySelector('.guy'),
-    btnGrandmother = menu.querySelector('.grandmother'),
-    btnGranddad = menu.querySelector('.granddad'),
-    wrapper = document.querySelector('.portfolio-wrapper'),
-    markAll = wrapper.querySelectorAll('.all'),
-    markGirl = wrapper.querySelectorAll('.girl'),
-    markLovers = wrapper.querySelectorAll('.lovers'),
-    markChef = wrapper.querySelectorAll('.chef'),
-    markGuy = wrapper.querySelectorAll('.guy'),
-    no = document.querySelector('.portfolio-no');
-
-  // створ ф-цію яка буде відповідати за фільтрацію елементів
-  const typeFilter = markType => {
-    markAll.forEach(mark => {
-      mark.style.display = 'none';
-      mark.classList.remove('animated', 'fadeIn');
-    });
-    no.style.display = 'none';
-    no.classList.remove('animated', 'fadeIn');
-    if (markType) {
-      markType.forEach(mark => {
-        mark.style.display = 'block';
-        mark.classList.add('animated', 'fadeIn');
-      });
-    } else {
-      no.style.display = 'block';
-      no.classList.add('animated', 'fadeIn');
-    }
-  };
-  btnAll.addEventListener('click', () => {
-    typeFilter(markAll);
-  });
-  btnLoves.addEventListener('click', () => {
-    typeFilter(markLovers);
-  });
-  btnChef.addEventListener('click', () => {
-    typeFilter(markChef);
-  });
-  btnGuy.addEventListener('click', () => {
-    typeFilter(markGuy);
-  });
-  btnGirl.addEventListener('click', () => {
-    typeFilter(markGirl);
-  });
-  btnGrandmother.addEventListener('click', () => {
-    typeFilter();
-  });
-  btnGranddad.addEventListener('click', () => {
-    typeFilter();
-  });
-  menu.addEventListener('click', e => {
-    let target = e.target;
-    if (target && target.tagName == "LI") {
-      items.forEach(btn => btn.classList.remove('active'));
-      target.classList.add('active');
-    }
-  });
-};
-/* harmony default export */ __webpack_exports__["default"] = (filter);
+// зробити так щоб коли користувач вибирав з автозаповнення англ букви вони не заповнювались
 
 /***/ }),
 
@@ -447,15 +157,18 @@ const filter = () => {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _services_requests__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../services/requests */ "./src/js/services/requests.js");
-/* harmony import */ var _checkTextInputs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./checkTextInputs */ "./src/js/modules/checkTextInputs.js");
 
-
-const forms = state => {
+const forms = () => {
+  // зробити дві змінні
+  // 1 - це всі форми які є на сторінці 
+  // 2 - всі input які є в цих формах
+  // потрібно буде навішати один і той самий обробиник події на всі одинакові форми
   const form = document.querySelectorAll('form'),
     inputs = document.querySelectorAll('input'),
-    upload = document.querySelectorAll('[name="upload"]'),
-    price = document.querySelector('.calc-price');
-  Object(_checkTextInputs__WEBPACK_IMPORTED_MODULE_1__["default"])('input[name=phone]');
+    upload = document.querySelectorAll('[name="upload"]');
+
+  // checkNumImputs('input[name="user_phone"]');
+
   const message = {
     loading: 'Завантаження...',
     success: 'Дякую! Скоро ми з вами звяжемся',
@@ -465,59 +178,75 @@ const forms = state => {
     fail: 'assets/img/fail.png'
   };
 
-  // створюємо змінну в якій розмістимо шляхи по яких будуть відправлятися дані
+  // створ змінна в якій будуть знаходитися шляхи по яким будуть розміщуватися наші дані
   const path = {
     designer: 'assets/server.php',
     question: 'assets/question.php'
   };
+
+  // очищення інпутів
   const clearInputs = () => {
     inputs.forEach(i => {
       i.value = '';
     });
+    // очищаєм назву зображення з форми після її відправки
     upload.forEach(i => {
       i.previousElementSibling.textContent = "Файл не вибраний";
     });
   };
-  upload.forEach(item => {
-    item.addEventListener('input', () => {
-      console.log(item.files[0]);
+
+  // перебираєм всі інпути з назвою upload
+  upload.forEach(i => {
+    i.addEventListener('input', () => {
+      console.log(i.files[0]);
+      // якщо зображення яке загружає користувач більше 6 симфолів воно буде скорочуватись і ставитись ...
       let dots;
-      // уомва на перевірку назви довжини зображення
-      const arr = item.files[0].name.split('.');
-      arr[0].length > 6 ? dots = "..." : dots = '.';
-      const name = arr[0].substring(0, 6) + dots + arr[1];
-      item.previousElementSibling.textContent = name;
+      const filesName = i.files[0].name.split('.');
+      filesName[0].length > 5 ? dots = '...' : dots = '.';
+      const name = filesName[0].substring(0, 6) + dots + filesName[1];
+      i.previousElementSibling.textContent = name;
     });
   });
   form.forEach(i => {
     i.addEventListener('submit', e => {
       e.preventDefault();
+
+      // створюємо змінну яка буде поміщати на сторінку статуси завантаження
       let statusMessage = document.createElement('div');
       statusMessage.classList.add('status');
-      i.parentNode.appendChild(statusMessage);
-      i.classList.add('animated', 'fadeOutUp'); // анімації
+      statusMessage.style.textAlign = 'center';
+      // поміщаєм цей блок на сторінку
+      i.parentNode.appendChild(statusMessage); // поміщаєм цей блок в кінець нашої форми
+
+      // робимо форму прозорую
+      i.classList.add('animated', 'fadeOutUp');
+      // після того як форма стала прозорою вона пропаде зі сторінки
       setTimeout(() => {
         i.style.display = 'none';
       }, 400);
 
-      // відображення статуса
+      // відображення статусу на сторінці
       let statusImg = document.createElement('img');
       statusImg.setAttribute('src', message.spiner);
       statusImg.classList.add('animated', 'fadeInUp');
+      // поміщаємо блок на сторінку
       statusMessage.appendChild(statusImg);
-      // добавляєм текстове повідомлення 
+
+      // добавляєм текстове повідомлення статусу завантаження
       let textMessage = document.createElement('div');
       textMessage.textContent = message.loading;
       statusMessage.appendChild(textMessage);
-      const formData = new FormData(i);
+      const formData = new FormData(i); // цей обєкт найде всі інпути збере всі ці дані в спеціальну структуру,
+      // яку ми помістимо в змінну formData
+
+      // створюєм змінну для того щоб сформувати динамічний шлях куда ми будемо все це відправляти
       let api;
+      // створюжсо умова що якщо форма буде вміщати цей клас тоді ми будемо відправляти дані на сервер
       i.closest('.popup-design') || i.classList.contains('calc_form') ? api = path.designer : api = path.question;
       console.log(api);
-      if (i.getAttribute('data-calc') == 'end') {
-        for (let key in state) {
-          formData.append(key, state[key]);
-        }
-      }
+
+      // коли formData буду повністю сформована ми її відправляємо
+      // відправляємо тіло запиту на сервер
       Object(_services_requests__WEBPACK_IMPORTED_MODULE_0__["postData"])(api, formData).then(res => {
         console.log(res);
         statusImg.setAttribute('src', message.ok);
@@ -532,7 +261,7 @@ const forms = state => {
           i.style.display = 'block';
           i.classList.remove('fadeOutUp');
           i.classList.add('fadeInUp');
-        }, 3000);
+        }, 5000);
       });
     });
   });
@@ -564,24 +293,38 @@ const mask = selector => {
     }
   };
   function createMask(e) {
+    // створюємо матрицю на яку будемо орієнтуватись при створенні маски
+
     let matrix = '+38 (0__) ___ __ __',
       i = 0,
-      def = matrix.replace(/\D/g, ""),
-      // статичне працює на основі матриці
-      val = this.value.replace(/\D/g, ""); // динамічне працює на основі того що ввів користувач
+      // статичне значення працює на основі матриці
+      def = matrix.replace(/\D/g, ''),
+      // получаєм всі не цифри які є
+      val = this.value.replace(/\D/g, ''); // динамічне значення працює на основі того що ввів користувач
 
+    // прописуєм умову що якщо к-сть цифр яка залишиться в матриці після дії по видаленню всіх не цифр всередині(def)
+    // якщо воно буде більше або рівне к-сті цифр які будуть в value, тоді це значення потрібно буде замінити на стандартне 
+    // коли користувач щось вводить в матрицю і починає видаляти +380 то ми йому цього зробити не дамо,
+    // тому що при видаленні 380 val.length буде менше ніж def.length
     if (def.length >= val.length) {
       val = def;
     }
-    this.value = matrix.replace(/./g, function (a) {
-      return /[_\d]/.test(a) && i < val.length ? val.charAt(i++) : i >= val.length ? "" : a;
-    }); // проходимся по всіх елементах які є в рядку
 
+    //перебираємо всі симфоли що знаходяться в матриці і при заповненні матриці цифрами ми будемо видаляти __ і підставляти замість них цифри
+    // /./ - кожний елемент який існує в рядку
+    // a - кожен символ який буде перебиратись всередині матриці
+    this.value = matrix.replace(/./g, function (a) {
+      return /[_\d]/.test(a) && i < val.length ? val.charAt(i++) : i >= val.length ? '' : a;
+    });
+
+    // користувач перестав щось вводити
     if (e.type === 'blur') {
-      if (this.value.length == 2) {
-        this.value = "";
+      // якщо к-сть символів в інпуті буде = 2, тоді ми очистимо інпут
+      if (this.value.length == 4) {
+        this.value = '';
       }
     } else {
+      // setCursorPosition() - встановлює позицію курсору
       setCursorPosition(this.value.length, this);
     }
   }
@@ -594,6 +337,8 @@ const mask = selector => {
 };
 /* harmony default export */ __webpack_exports__["default"] = (mask);
 
+// зробити так щоб користувач не зміг змінювати початкові цифри переставляючи курсор перед ними
+
 /***/ }),
 
 /***/ "./src/js/modules/modals.js":
@@ -605,12 +350,16 @@ const mask = selector => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+// 2. Щоб експортувати весь код який буде знаходитися тут, необхідно зробити певну структуру
+// використовуючи звичайні ф-ції
 const modals = () => {
   // 5. Створюєм змінну яка буде відповідати за те що вона слідкує чи була нажата хоч одна кнопка
   // по виклику модального вікна (для того щоб дізнатись чи була нажата хоч якась кнопка)
   let btnPressed;
   // ця змінна буде змінюватись коли користувач кліне на любу кнопку по виклику модального вікна
 
+  // 3. пишемо загальний алгоритм який буде приймати в себе різні аргументи і робити те що нам потрібно
+  // створюєм ф-цію яка буде відповідати за привязку модального вікна до певного триггеру
   // trigger - селектор нашої кнопки по якій ми будемо клікати
   // modal - модальне вікно яке ми будемо відкривати
   // close - селекор який закриває модальне вікно (хрестик)
@@ -628,11 +377,14 @@ const modals = () => {
           e.preventDefault(); // відміняєм стандартну поведінку браузера
         }
 
-        btnPressed = true; // користувач клікнув на кнопку (trigger)
+        btnPressed = true; // користувач клікнув на кнопку
 
         // берем всі модальні вікна які є і при відкритті нового модального вікна старі всі закриваються
         windows.forEach(item => {
           item.style.display = 'none';
+          // робимо анімацію з css. Додаємо додаткові класи
+          // animated - для того щоб правильно запрацювали анімації
+          // fadeIn - для того щоб красиво і плавно появлялось модальне вікно
           item.classList.add('animated', 'fadeIn');
         });
 
@@ -641,7 +393,9 @@ const modals = () => {
           item.remove();
         }
         modal.style.display = "block";
-        // блокуємо scroll сторінки при відкритті модального вікна
+        // робимо так що коли модальне вікно відкрито то ми можемо гортати тільки модальне вікно,
+        // якщо воно велике по висоті якщо ні то сторінка просто заморожується і при виклику модального
+        // вікна скролити сторінку буде не можливо
         document.body.style.overflow = "hidden";
         // document.body.classList.add('modal-open');
         document.body.style.marginRight = `${scroll}px`;
@@ -675,7 +429,7 @@ const modals = () => {
     });
   }
 
-  // функція відкриття модального вікна через певний проміжок часу
+  // відкриття модального вікна через певний проміжок часу
   // selector - модальне вікно
   // time - час через який відкриється це модальне вікно
   function showModalByTime(selector, time) {
@@ -692,12 +446,16 @@ const modals = () => {
       if (!d) {
         document.querySelector(selector).style.display = "block";
         document.body.style.overflow = "hidden";
+        // робимо щоб сторінка не дьоргалась
         let scroll = calcScroll();
         document.body.style.marginRight = `${scroll}px`;
+        // щоб подарунок не дьоргався
         document.querySelector('.fixed-gift').style.marginRight = `${scroll}px`;
       }
     }, time);
   }
+
+  // створ функцію щоб модальне вікно не дьоргалось
   function calcScroll() {
     let div = document.createElement('div');
     div.style.width = '50px';
@@ -709,9 +467,16 @@ const modals = () => {
     div.remove();
     return scrollWidth;
   }
+
+  // selector - той елемент який необхідно показати коли виконається певна умова
   function openByScroll(selector) {
+    // для того щоб оприділити скільки пікселів прогортав користувач зверху
+    // необхідна подія scroll яка навішується на обєкт window
     window.addEventListener('scroll', () => {
+      // якщо користувач не клікнув ні на одну кнопку і догортав до кінця
+      // вираховуємо чи користувач дійсно догортав сторінку до кінця
       if (!btnPressed && window.scrollY + document.documentElement.clientHeight >= document.documentElement.scrollHeight) {
+        // відкриваєм модальне вікно коли умова виконалась
         document.querySelector(selector).click();
       }
     });
@@ -724,157 +489,6 @@ const modals = () => {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (modals);
-
-/***/ }),
-
-/***/ "./src/js/modules/pictureSize.js":
-/*!***************************************!*\
-  !*** ./src/js/modules/pictureSize.js ***!
-  \***************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-const pictureSize = imgSelector => {
-  const blocks = document.querySelectorAll(imgSelector);
-  function showImg(block) {
-    const img = block.querySelector('img');
-    // something.png => something-1.png
-    img.src = img.src.slice(0, -4) + '-1.png';
-    block.querySelectorAll('p:not(.sizes-hit)').forEach(p => {
-      p.style.display = 'none';
-    });
-  }
-  function hideImg(block) {
-    const img = block.querySelector('img');
-    // something-1.png => something.png
-    img.src = img.src.slice(0, -6) + '.png';
-    block.querySelectorAll('p:not(.sizes-hit)').forEach(p => {
-      p.style.display = 'block';
-    });
-  }
-  blocks.forEach(block => {
-    block.addEventListener('mouseover', () => {
-      showImg(block);
-    });
-    block.addEventListener('mouseout', () => {
-      hideImg(block);
-    });
-  });
-};
-/* harmony default export */ __webpack_exports__["default"] = (pictureSize);
-
-/***/ }),
-
-/***/ "./src/js/modules/scrolling.js":
-/*!*************************************!*\
-  !*** ./src/js/modules/scrolling.js ***!
-  \*************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-const scrolling = upSelector => {
-  const upElem = document.querySelector(upSelector);
-  window.addEventListener('scroll', () => {
-    if (document.documentElement.scrollTop > 1650) {
-      upElem.classList.add('animated', 'fadeIn');
-      upElem.classList.remove('fadeOut');
-    } else {
-      upElem.classList.add('fadeOut');
-      upElem.classList.remove('fadeIn');
-    }
-  });
-
-  // Scrolling with raf
-
-  let links = document.querySelectorAll('[href^="#"]'),
-    speed = 0.3;
-  links.forEach(link => {
-    link.addEventListener('click', function (event) {
-      event.preventDefault();
-      let widthTop = document.documentElement.scrollTop,
-        hash = this.hash,
-        toBlock = document.querySelector(hash).getBoundingClientRect().top,
-        start = null;
-      requestAnimationFrame(step);
-      function step(time) {
-        if (start === null) {
-          start = time;
-        }
-        let progress = time - start,
-          r = toBlock < 0 ? Math.max(widthTop - progress / speed, widthTop + toBlock) : Math.min(widthTop + progress / speed, widthTop + toBlock);
-        document.documentElement.scrollTo(0, r);
-        if (r != widthTop + toBlock) {
-          requestAnimationFrame(step);
-        } else {
-          location.hash = hash;
-        }
-      }
-    });
-  });
-
-  // Pure js scrolling
-  // const elements = document.documentElement,
-  //       body = document.body;
-
-  // const calcScroll = () => {
-  //     upElem.addEventListener('click', function(event) {
-  //         let scrollTop = Math.round(body.scrollTop || elements.scrollTop);
-
-  //         if(this.hash !== '') {
-  //             event.preventDefault();
-  //             let hashElement = document.querySelector(this.hash),
-  //                 //скільки ще треба прогортати пікселів до hash - елемента
-  //                 hashElementTop = 0;
-
-  //             while(hashElement.offsetParent) {
-  //                 hashElementTop += hashElement.offsetTop;
-  //                 // offsetTop допомагає оприділити скільки px залишилось до верхньої границі батьківського елемента
-  //                 // перебираєм всіх батьків які можуть бути основою для позиціювання даного елемента
-  //                 hashElement = hashElement.offsetParent;
-  //             }
-
-  //             hashElementTop = Math.round(hashElementTop);
-  //             smoothScroll(scrollTop, hashElementTop, this.hash);
-  //         }
-  //     });
-  // };      
-
-  // const smoothScroll = (from, to, hash) => {
-  //     let timeInterval = 1,
-  //         prevScrollTop,
-  //         speed;
-
-  //     if(to > from) {
-  //         speed = 30;
-  //     } else {
-  //         speed = -30;
-  //     }
-
-  //     let move = setInterval(function() {
-  //         let scrollTop = Math.round(body.scrollTop || elements.scrollTop);
-
-  //         if(
-  //             prevScrollTop === scrollTop || 
-  //             (to > from && scrollTop >= to) ||
-  //             (to < from && scrollTop <= to)
-  //         ) {
-  //             clearInterval(move);
-  //             history.replaceState(history.state, document.title, location.href.replace(/#.*$/g, '') + hash);
-  //         } else {
-  //             body.scrollTop += speed;
-  //             elements.scrollTop += speed;
-  //             prevScrollTop = scrollTop;
-  //         }
-  //     }, timeInterval);
-  // };
-  // calcScroll();
-};
-
-/* harmony default export */ __webpack_exports__["default"] = (scrolling);
 
 /***/ }),
 
@@ -961,36 +575,59 @@ const showMoreStyles = (trigger, wrapper) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-// slides - селектор який буде відображати ті слайди які ми хочемо переключати
-// dir - вказує в яку сторону буде рухатись наш слайдер
-// prev/next - селектори які будуть відповідати за кнопки які переключають наш слайдер
-const sliders = (slides, dir, prev, next) => {
+// slidersSelector - слайди які ми будемо переключати
+// dir - сорона по якій буде рухатись слайдер вертикально/горизонтально
+// prev/next - кнопкиуть слайдер
+const sliders = (slidesSelector, dir, prev, next) => {
+  // переший слайдер не містить кнопок prev та next
   let slideIndex = 1,
-    // слайд який показується користувачу
-    poused = false;
-  const items = document.querySelectorAll(slides);
+    // буде відображати теперішній слайд який показується користувачу
+    poused = false; // буде розуміти чи потрібно в поточний момент зупинити переключення слайдів
+
+  const items = document.querySelectorAll(slidesSelector);
+
+  // 2. Створ ф-цію яка буде відповідати за переміщення slideIndex і слайдера
+  // n - slideIndex і як він буде змінюватись
   function showSlides(n) {
+    // якщо n буде більше к-сті слайдів яка є на сторінці, томи будемо повертатися на початок
     if (n > items.length) {
       slideIndex = 1;
     }
+
+    // якщо n буде менше 1 то ми показуємо останній слайд який є
     if (n < 1) {
       slideIndex = items.length;
     }
+
+    // зробити так щоб коли показується певний слайд ми приховуєм всі інші і показуєм саме той який нам потрібен
+    // приховує всі неактивні слайди
     items.forEach(item => {
+      // для того щоб перегортування відбувалось плавно
       item.classList.add('animated');
+      // приховуєм всі слайди
       item.style.display = 'none';
     });
+    // показує перший слайд
     items[slideIndex - 1].style.display = 'block';
   }
   showSlides(slideIndex);
+
+  // в цю функцію буде передаватись 1 або -1
+  // ця функція буде викликатись коли користувач буде клікати на певні елементи (вперед або назад кнопки)
   function plusSlides(n) {
+    // викликаєм функцію showSlides на 1 слайд більше або на 1 слайд менше
     showSlides(slideIndex += n);
   }
+
+  // якщо селектори кнопок не були передані то цей блок коду не мпрацює і не зруйнує код
   try {
     const prevBtn = document.querySelector(prev),
       nextBtn = document.querySelector(next);
+
+    // якщо кнопки є
     prevBtn.addEventListener('click', () => {
       plusSlides(-1);
+      // добавляємо анімації при переключенні слайдів
       items[slideIndex - 1].classList.remove('slideInLeft');
       items[slideIndex - 1].classList.add('slideInRight');
     });
@@ -1000,7 +637,10 @@ const sliders = (slides, dir, prev, next) => {
       items[slideIndex - 1].classList.add('slideInLeft');
     });
   } catch (e) {}
+
+  // коли користувач наводить мишку на слайдер то ми відключаєм автоматичне прогортування слайдера
   function activateAnimation() {
+    // якщо слайдер вертикальний та якщо горизонтальний
     if (dir === 'vertical') {
       poused = setInterval(function () {
         plusSlides(1);
@@ -1030,13 +670,14 @@ const sliders = (slides, dir, prev, next) => {
 /*!*************************************!*\
   !*** ./src/js/services/requests.js ***!
   \*************************************/
-/*! exports provided: postData, getResourse */
+/*! exports provided: postData, getData */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "postData", function() { return postData; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getResourse", function() { return getResourse; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getData", function() { return getData; });
+// відправка даних на сервер
 const postData = async (url, data) => {
   let res = await fetch(url, {
     method: "POST",
@@ -1044,7 +685,9 @@ const postData = async (url, data) => {
   });
   return await res.text();
 };
-const getResourse = async url => {
+
+// відправка даних на сервер
+const getData = async url => {
   let res = await fetch(url);
   if (!res.ok) {
     throw new Error(`Could not fetch ${url}, status: ${res.status}`);

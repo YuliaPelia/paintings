@@ -1,3 +1,4 @@
+// відправка даних на сервер
 const postData = async (url, data) => {
     let res = await fetch(url, {
         method: "POST",
@@ -7,7 +8,8 @@ const postData = async (url, data) => {
     return await res.text();
 };
 
-const getResourse = async (url) => {
+// відправка даних на сервер
+const getData = async (url) => {
     let res = await fetch(url);
 
     if(!res.ok) {
@@ -17,4 +19,4 @@ const getResourse = async (url) => {
     return await res.json();
 };
 
-export {postData, getResourse};
+export {postData, getData};

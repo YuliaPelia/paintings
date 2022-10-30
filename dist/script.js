@@ -102,6 +102,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_checkTextInputs__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/checkTextInputs */ "./src/js/modules/checkTextInputs.js");
 /* harmony import */ var _modules_showMoreStyles__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modules/showMoreStyles */ "./src/js/modules/showMoreStyles.js");
 /* harmony import */ var _modules_filter__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./modules/filter */ "./src/js/modules/filter.js");
+/* harmony import */ var _modules_pictureSize__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./modules/pictureSize */ "./src/js/modules/pictureSize.js");
+
 
 
 
@@ -121,6 +123,7 @@ window.addEventListener('DOMContentLoaded', () => {
   Object(_modules_checkTextInputs__WEBPACK_IMPORTED_MODULE_4__["default"])('[name="message"]');
   Object(_modules_showMoreStyles__WEBPACK_IMPORTED_MODULE_5__["default"])('.button-styles', '#styles .row');
   Object(_modules_filter__WEBPACK_IMPORTED_MODULE_6__["default"])();
+  Object(_modules_pictureSize__WEBPACK_IMPORTED_MODULE_7__["default"])('.sizes-block');
 });
 
 /***/ }),
@@ -564,6 +567,59 @@ const modals = () => {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (modals);
+
+/***/ }),
+
+/***/ "./src/js/modules/pictureSize.js":
+/*!***************************************!*\
+  !*** ./src/js/modules/pictureSize.js ***!
+  \***************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+const pictureSize = imgSelector => {
+  const blocks = document.querySelectorAll(imgSelector);
+
+  //  на кожного з блоків навішуємо подію
+  // 1 подія - це коли наша курсор находиться над блоком (mouseover), показуємл потрібну картинку і приховуєм ті елементи що зараз знаходяться в верстці
+  // 2 подія - це коли курсор виходить за межи блока (mouseout)
+
+  // створюєм 2 ф-ції
+  // перша буде показувати зображення, а друга - приховувати
+  function showImg(block) {
+    const img = block.querySelector('img');
+    // замінюєм картинку
+    img.src = img.src.slice(0, -4) + '-1.png';
+    // приховуєм лишні параграфи
+    // p:not(.sizes-hit) - вибираєм всі параграфи крім .sizes-hit
+    block.querySelectorAll('p:not(.sizes-hit)').forEach(p => {
+      p.style.display = 'none';
+    });
+  }
+
+  // створ ф-цію яка буде приховувати зображення коли ф-ція буде виходити за межі блоку
+  function hideImg(block) {
+    const img = block.querySelector('img');
+    // замінюєм картинку
+    img.src = img.src.slice(0, -6) + '.png';
+    // приховуєм лишні параграфи
+    // p:not(.sizes-hit) - вибираєм всі параграфи крім .sizes-hit
+    block.querySelectorAll('p:not(.sizes-hit)').forEach(p => {
+      p.style.display = 'block';
+    });
+  }
+  blocks.forEach(block => {
+    block.addEventListener('mouseover', () => {
+      showImg(block);
+    });
+    block.addEventListener('mouseout', () => {
+      hideImg(block);
+    });
+  });
+};
+/* harmony default export */ __webpack_exports__["default"] = (pictureSize);
 
 /***/ }),
 

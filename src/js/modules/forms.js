@@ -9,8 +9,6 @@ const forms = () => {
           inputs = document.querySelectorAll('input'),
           upload = document.querySelectorAll('[name="upload"]');
 
-    // checkNumImputs('input[name="user_phone"]');
-
     
     const message = {
         loading: 'Завантаження...',

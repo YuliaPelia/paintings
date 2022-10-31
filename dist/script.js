@@ -274,9 +274,6 @@ const forms = () => {
   const form = document.querySelectorAll('form'),
     inputs = document.querySelectorAll('input'),
     upload = document.querySelectorAll('[name="upload"]');
-
-  // checkNumImputs('input[name="user_phone"]');
-
   const message = {
     loading: 'Завантаження...',
     success: 'Дякую! Скоро ми з вами звяжемся',

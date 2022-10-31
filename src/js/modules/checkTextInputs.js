@@ -13,4 +13,3 @@ const checkTextInputs = (selector) => {
 export default checkTextInputs;
 
 
-// зробити так щоб коли користувач вибирав з автозаповнення англ букви вони не заповнювались

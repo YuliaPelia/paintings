@@ -104,6 +104,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_filter__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./modules/filter */ "./src/js/modules/filter.js");
 /* harmony import */ var _modules_pictureSize__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./modules/pictureSize */ "./src/js/modules/pictureSize.js");
 /* harmony import */ var _modules_accordion__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./modules/accordion */ "./src/js/modules/accordion.js");
+/* harmony import */ var _modules_burger__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./modules/burger */ "./src/js/modules/burger.js");
+/* harmony import */ var _modules_scrolling__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./modules/scrolling */ "./src/js/modules/scrolling.js");
+
+
 
 
 
@@ -127,6 +131,8 @@ window.addEventListener('DOMContentLoaded', () => {
   Object(_modules_filter__WEBPACK_IMPORTED_MODULE_6__["default"])();
   Object(_modules_pictureSize__WEBPACK_IMPORTED_MODULE_7__["default"])('.sizes-block');
   Object(_modules_accordion__WEBPACK_IMPORTED_MODULE_8__["default"])('.accordion-heading');
+  Object(_modules_burger__WEBPACK_IMPORTED_MODULE_9__["default"])('.burger-menu', '.burger');
+  Object(_modules_scrolling__WEBPACK_IMPORTED_MODULE_10__["default"])('.pageup');
 });
 
 /***/ }),
@@ -158,6 +164,36 @@ const accordion = triggersSelector => {
 
 /***/ }),
 
+/***/ "./src/js/modules/burger.js":
+/*!**********************************!*\
+  !*** ./src/js/modules/burger.js ***!
+  \**********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+const burger = (menuSelector, burgerSelector) => {
+  const menuElem = document.querySelector(menuSelector),
+    bergerElem = document.querySelector(burgerSelector);
+  menuElem.style.display = 'none';
+  bergerElem.addEventListener('click', () => {
+    if (menuElem.style.display == "none" && window.screen.availWidth < 993) {
+      menuElem.style.display = 'block';
+    } else {
+      menuElem.style.display = 'none';
+    }
+  });
+  window.addEventListener('resize', () => {
+    if (window.screen.availWidth > 992) {
+      menuElem.style.display = 'none';
+    }
+  });
+};
+/* harmony default export */ __webpack_exports__["default"] = (burger);
+
+/***/ }),
+
 /***/ "./src/js/modules/checkTextInputs.js":
 /*!*******************************************!*\
   !*** ./src/js/modules/checkTextInputs.js ***!
@@ -178,8 +214,6 @@ const checkTextInputs = selector => {
   });
 };
 /* harmony default export */ __webpack_exports__["default"] = (checkTextInputs);
-
-// зробити так щоб коли користувач вибирав з автозаповнення англ букви вони не заповнювались
 
 /***/ }),
 
@@ -442,8 +476,6 @@ const mask = selector => {
 };
 /* harmony default export */ __webpack_exports__["default"] = (mask);
 
-// зробити так щоб користувач не зміг змінювати початкові цифри переставляючи курсор перед ними
-
 /***/ }),
 
 /***/ "./src/js/modules/modals.js":
@@ -624,6 +656,127 @@ const pictureSize = imgSelector => {
   });
 };
 /* harmony default export */ __webpack_exports__["default"] = (pictureSize);
+
+/***/ }),
+
+/***/ "./src/js/modules/scrolling.js":
+/*!*************************************!*\
+  !*** ./src/js/modules/scrolling.js ***!
+  \*************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+const scrolling = upSelector => {
+  const upElem = document.querySelector(upSelector);
+  window.addEventListener('scroll', () => {
+    // scrollTop - це та відстань яку ми вже прогортали і ми його не бачимо
+    if (document.documentElement.scrollTop > 1650) {
+      upElem.classList.add('animated', 'fadeIn');
+      upElem.classList.remove('fadeOut');
+    } else {
+      upElem.classList.add('fadeOut');
+      upElem.classList.remove('fadeIn');
+    }
+  });
+
+  // 1) Scrolling width requestAnimationFrame
+  // шукаємо всі посилання (лінки) з #
+  let links = document.querySelectorAll('[href^="#"]'),
+    speed = 0.3;
+  links.forEach(link => {
+    link.addEventListener('click', function (e) {
+      e.preventDefault();
+      let widthTop = document.documentElement.scrollTop,
+        hash = this.hash,
+        toBlock = document.querySelector(hash).getBoundingClientRect().top,
+        // toBlock - верхня межа того елемента до якого будемо скролити
+        start = null;
+      requestAnimationFrame(step);
+      function step(time) {
+        if (start === null) {
+          start = time;
+        }
+        let progress = time - start,
+          r = toBlock < 0 ? Math.max(widthTop - progress / speed, widthTop + toBlock) : Math.min(widthTop + progress / speed, widthTop + toBlock);
+        // r - к-сть px які необхідне прогорнути протягом цієї анімації
+        // ця операція що належить змінній r виконується для того щоб розуміти на скільки px потрібно просунути нашу анімацію та в яку сторону
+        document.documentElement.scrollTo(0, r);
+        if (r != widthTop + toBlock) {
+          requestAnimationFrame(step);
+        } else {
+          location.hash = hash;
+        }
+      }
+    });
+  });
+
+  // 2) Pure JS scrolling
+  // робимо лавний сткорл
+  // const elem = document.documentElement,
+  //       body = document.body;
+
+  // // створюєм ф-цю яка буде підраховувати скільки треба прогортати і як це зробити
+  // const calcScroll = () => {
+  //     upElem.addEventListener('click', function(e) {
+  //         let scrollTop = Math.round(body.scrollTop || elem.scrollTop);
+
+  //         if(this.hash !== "") {
+  //             e.preventDefault();
+  //             // получаєм той елемент до якого ми будемо скролити (гортати) нашу сторінку
+  //             let hashElement = document.querySelector(this.hash),
+  //             // створ змінну яка буде визначати скільки ще треба прогортати до батька цього hash елемента
+  //                  hashElementTop = 0;
+
+  //             while(hashElement.offsetParent) {
+  //                 // offsetTop - оприділяє скільки px залишилось до верхньої межі батьківського елемента від hash елемента
+  //                 hashElementTop += hashElement.offsetTop;
+  //                 hashElement = hashElement.offsetParent;
+  //             }
+
+  //             hashElementTop = Math.round(hashElementTop);
+  //             smoothScroll(scrollTop, hashElementTop, this.hash);
+  //         }
+  //     });
+  // };
+
+  // // from - звідки будемо починати 
+  // // to - куда будемо йти
+  // // hash - елемент до якого буде йти скролл
+  // const smoothScroll = (from, to, hash) => {
+  //     let timeInterval = 1,
+  //         prevScrollTop,
+  //         speed; // швидкість скролу
+
+  //     if (to > from) {
+  //         speed = 30;
+  //     } else {
+  //         speed = -30;
+  //     }
+
+  //     let move = setInterval(function() {
+  //         let scrollTop = Math.round(body.scrollTop || elem.scrollTop);
+
+  //         if(
+  //             prevScrollTop === scrollTop || 
+  //             (to > from && scrollTop >= to) ||
+  //             (to < from && scrollTop <= to)
+  //         ) {
+  //             clearInterval(move);
+  //             history.replaceState(history.state, document.title, location.href.replace(/#.*$/g, '') + hash);
+  //         } else {
+  //             body.scrollTop += speed;
+  //             elem.scrollTop += speed;
+  //             prevScrollTop = scrollTop;
+  //         }
+  //     }, timeInterval);
+  // };
+
+  // calcScroll();
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (scrolling);
 
 /***/ }),
 

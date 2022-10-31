@@ -1,19 +1,8 @@
-// 2. Щоб експортувати весь код який буде знаходитися тут, необхідно зробити певну структуру
-// використовуючи звичайні ф-ції
+
 const modals = () => {
 
-    // 5. Створюєм змінну яка буде відповідати за те що вона слідкує чи була нажата хоч одна кнопка
-    // по виклику модального вікна (для того щоб дізнатись чи була нажата хоч якась кнопка)
     let btnPressed;
-    // ця змінна буде змінюватись коли користувач кліне на любу кнопку по виклику модального вікна
 
-
-
-    // 3. пишемо загальний алгоритм який буде приймати в себе різні аргументи і робити те що нам потрібно
-    // створюєм ф-цію яка буде відповідати за привязку модального вікна до певного триггеру
-    // trigger - селектор нашої кнопки по якій ми будемо клікати
-    // modal - модальне вікно яке ми будемо відкривати
-    // close - селекор який закриває модальне вікно (хрестик)
     function bindModal(triggerSelector, modalSelector, closeSelector, gift = false) {
 
         const trigger = document.querySelectorAll(triggerSelector),
@@ -22,36 +11,25 @@ const modals = () => {
               windows = document.querySelectorAll('[data-modal]'),
               scroll = calcScroll();
 
-    
-
         trigger.forEach(item => {
             item.addEventListener('click', (e) => {
                 
-                // e.target - чи точно існує той елемент на який клікнув користувач
                 if(e.target) {
-                    e.preventDefault(); // відміняєм стандартну поведінку браузера
+                    e.preventDefault();
                 }
 
                 btnPressed = true; // користувач клікнув на кнопку
                 
-                // берем всі модальні вікна які є і при відкритті нового модального вікна старі всі закриваються
                 windows.forEach(item => {
                     item.style.display = 'none';
-                    // робимо анімацію з css. Додаємо додаткові класи
-                    // animated - для того щоб правильно запрацювали анімації
-                    // fadeIn - для того щоб красиво і плавно появлялось модальне вікно
                     item.classList.add('animated', 'fadeIn');
                 });
 
-                // коли користувач нажимає на подарунок він пропадає зі сторінки
                 if (gift) {
                     item.remove();
                 }
 
                 modal.style.display = "block";
-                // робимо так що коли модальне вікно відкрито то ми можемо гортати тільки модальне вікно,
-                // якщо воно велике по висоті якщо ні то сторінка просто заморожується і при виклику модального
-                // вікна скролити сторінку буде не можливо
                 document.body.style.overflow = "hidden";
                 // document.body.classList.add('modal-open');
                 document.body.style.marginRight = `${scroll}px`;
@@ -155,7 +133,7 @@ const modals = () => {
     bindModal('.button-consultation', '.popup-consultation', '.popup-consultation .popup-close');
     bindModal('.fixed-gift', '.popup-gift', '.popup-gift .popup-close', true);
     openByScroll('.fixed-gift');
-    // showModalByTime('.popup-consultation', 60000);
+    showModalByTime('.popup-consultation', 60000);
 };
 
 export default modals;

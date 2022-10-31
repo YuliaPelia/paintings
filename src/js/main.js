@@ -6,6 +6,8 @@ import checkTextInputs from './modules/checkTextInputs';
 import showMoreStyles from './modules/showMoreStyles';
 import filter from './modules/filter';
 import pictureSize from './modules/pictureSize';
+import accordion from './modules/accordion';
+
 
 
 window.addEventListener('DOMContentLoaded', () => {
@@ -21,6 +23,8 @@ window.addEventListener('DOMContentLoaded', () => {
     showMoreStyles('.button-styles', '#styles .row');
     filter();
     pictureSize('.sizes-block');
+    accordion('.accordion-heading');
+
 
 });
 

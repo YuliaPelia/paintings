@@ -103,6 +103,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_showMoreStyles__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modules/showMoreStyles */ "./src/js/modules/showMoreStyles.js");
 /* harmony import */ var _modules_filter__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./modules/filter */ "./src/js/modules/filter.js");
 /* harmony import */ var _modules_pictureSize__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./modules/pictureSize */ "./src/js/modules/pictureSize.js");
+/* harmony import */ var _modules_accordion__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./modules/accordion */ "./src/js/modules/accordion.js");
+
 
 
 
@@ -124,7 +126,35 @@ window.addEventListener('DOMContentLoaded', () => {
   Object(_modules_showMoreStyles__WEBPACK_IMPORTED_MODULE_5__["default"])('.button-styles', '#styles .row');
   Object(_modules_filter__WEBPACK_IMPORTED_MODULE_6__["default"])();
   Object(_modules_pictureSize__WEBPACK_IMPORTED_MODULE_7__["default"])('.sizes-block');
+  Object(_modules_accordion__WEBPACK_IMPORTED_MODULE_8__["default"])('.accordion-heading');
 });
+
+/***/ }),
+
+/***/ "./src/js/modules/accordion.js":
+/*!*************************************!*\
+  !*** ./src/js/modules/accordion.js ***!
+  \*************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+const accordion = triggersSelector => {
+  const btns = document.querySelectorAll(triggersSelector);
+  btns.forEach(btn => {
+    btn.addEventListener('click', function () {
+      this.classList.toggle('active-style');
+      this.nextElementSibling.classList.toggle('active-content');
+      if (this.classList.contains('active-style')) {
+        this.nextElementSibling.style.maxHeight = this.nextElementSibling.scrollHeight + 80 + "px";
+      } else {
+        this.nextElementSibling.style.maxHeight = '0px';
+      }
+    });
+  });
+};
+/* harmony default export */ __webpack_exports__["default"] = (accordion);
 
 /***/ }),
 
@@ -428,19 +458,8 @@ const mask = selector => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-// 2. Щоб експортувати весь код який буде знаходитися тут, необхідно зробити певну структуру
-// використовуючи звичайні ф-ції
 const modals = () => {
-  // 5. Створюєм змінну яка буде відповідати за те що вона слідкує чи була нажата хоч одна кнопка
-  // по виклику модального вікна (для того щоб дізнатись чи була нажата хоч якась кнопка)
   let btnPressed;
-  // ця змінна буде змінюватись коли користувач кліне на любу кнопку по виклику модального вікна
-
-  // 3. пишемо загальний алгоритм який буде приймати в себе різні аргументи і робити те що нам потрібно
-  // створюєм ф-цію яка буде відповідати за привязку модального вікна до певного триггеру
-  // trigger - селектор нашої кнопки по якій ми будемо клікати
-  // modal - модальне вікно яке ми будемо відкривати
-  // close - селекор який закриває модальне вікно (хрестик)
   function bindModal(triggerSelector, modalSelector, closeSelector) {
     let gift = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
     const trigger = document.querySelectorAll(triggerSelector),
@@ -450,30 +469,19 @@ const modals = () => {
       scroll = calcScroll();
     trigger.forEach(item => {
       item.addEventListener('click', e => {
-        // e.target - чи точно існує той елемент на який клікнув користувач
         if (e.target) {
-          e.preventDefault(); // відміняєм стандартну поведінку браузера
+          e.preventDefault();
         }
-
         btnPressed = true; // користувач клікнув на кнопку
 
-        // берем всі модальні вікна які є і при відкритті нового модального вікна старі всі закриваються
         windows.forEach(item => {
           item.style.display = 'none';
-          // робимо анімацію з css. Додаємо додаткові класи
-          // animated - для того щоб правильно запрацювали анімації
-          // fadeIn - для того щоб красиво і плавно появлялось модальне вікно
           item.classList.add('animated', 'fadeIn');
         });
-
-        // коли користувач нажимає на подарунок він пропадає зі сторінки
         if (gift) {
           item.remove();
         }
         modal.style.display = "block";
-        // робимо так що коли модальне вікно відкрито то ми можемо гортати тільки модальне вікно,
-        // якщо воно велике по висоті якщо ні то сторінка просто заморожується і при виклику модального
-        // вікна скролити сторінку буде не можливо
         document.body.style.overflow = "hidden";
         // document.body.classList.add('modal-open');
         document.body.style.marginRight = `${scroll}px`;
@@ -563,9 +571,8 @@ const modals = () => {
   bindModal('.button-consultation', '.popup-consultation', '.popup-consultation .popup-close');
   bindModal('.fixed-gift', '.popup-gift', '.popup-gift .popup-close', true);
   openByScroll('.fixed-gift');
-  // showModalByTime('.popup-consultation', 60000);
+  showModalByTime('.popup-consultation', 60000);
 };
-
 /* harmony default export */ __webpack_exports__["default"] = (modals);
 
 /***/ }),
